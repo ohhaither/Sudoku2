@@ -19,7 +19,7 @@ public static void main(String[] args) {
 }
 public static int[][]jogo;
 
-public static boolean permutacao(int n,int m) {
+public static boolean permutacao(int n,int m) { //verifica se o jogo est√° completo.Em progresso
     int contadorLinha=0;
     int contadorColuna=0;
     
@@ -35,11 +35,11 @@ public static boolean permutacao(int n,int m) {
     
 }
 
-private static final String[]opcoes={
+private static final String[]opcoes={ //menu
 "0 - Sair",
 "1 - Aplicar permutacao de dois numeros",
 "2 - Aplicar permutacao de duas linhas de uma mesma faixa horizontal",
-"3 - Aplicar permutaÁ„o de duas colunas de uma mesma faixa vertical",
+"3 - Aplicar permuta√ß√£o de duas colunas de uma mesma faixa vertical",
 "4 - Aplicar permutacao de duas faixas horizontais",
 "5 - Aplicar permutacao de duas faixas verticais",
 "6 - Aplicar reflexao horizontal",
