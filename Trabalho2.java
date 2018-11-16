@@ -1,25 +1,46 @@
 import java.util.Scanner;
 
-public class Trabalho2
-{
+public class Trabalho2 {
+
 public static void main(String[] args) {
-    jogo= new int[9][9]; 
-    for(int i=0;i<jogo.length;i++){
-	for(int o=0;o<jogo.length;o++) {
-	    jogo[i][o]=(i/3+3*(i%3)+o)%9+1;
-	System.out.print(jogo[i][o] + " ");
-	}
-	System.out.println();
-    }
-    Scanner numero=new Scanner(System.in);
-    int n=numero.nextInt();
-    while(n !=0 || permutacao(9, 9)==false) {
-	
+    GQ();
+    imprimirQD(GQ());
+
+Scanner numero = new Scanner(System.in);
+int n=numero.nextInt();
+
+
+
+while(n !=0 || permutacao(9, 9) == false) {
+    
     }
 }
-public static int[][]jogo;
+public static void imprimirQD(int[][] matriz) {
+    for (int i = 0; i < matriz.length; i++) { // linha
+        for (int j = 0; j < matriz.length; j++) // coluna
+            System.out.print(matriz[i][j] + " ");
+        System.out.println();
+    }
 
-public static boolean permutacao(int n,int m) { //verifica se o jogo está completo.Em progresso
+}
+
+public static int[][] GQ () {
+    int [][] quadricula= new int[9][9]; 
+    for(int i=0;i<quadricula.length;i++) {
+        for(int o=0;o<quadricula.length;o++) {
+            quadricula[i][o]=(i/3+3*(i%3)+o)%9+1;
+        }
+        System.out.println();
+    }
+    return quadricula;
+}
+/*public static int[][] lerQuadricula() {
+    for (int i = 1; i <= 9; i++) {
+        System.out.println("insira a primeira linha");
+    }
+}*/
+
+public static boolean permutacao(int n,int m) { // verifica se o jogo está completo.Em progresso
     int contadorLinha=0;
     int contadorColuna=0;
     
