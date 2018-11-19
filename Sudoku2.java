@@ -73,7 +73,7 @@ public class Sudoku2 {
      * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
-        int auxiliar, linha1 = faixa1 * 3, linha2 = faixa2 * 3;
+        int linha1 = faixa1 * 3, linha2 = faixa2 * 3;
        
         for (int i = 0; i < matriz.length/3; i++) {
             permutarLinhas(matriz, linha1, linha2);
@@ -90,7 +90,7 @@ public class Sudoku2 {
      * @requires {@code (faixa1 >= 1 && faixa1 <= 3) && (faixa2 >= 1 && faixa2 <=)}
      */
     public static void permutarFaixasVerticais(int[][] matriz, int faixa1, int faixa2) {
-        int auxiliar, coluna1 = faixa1 * 3, coluna2 = faixa2 * 3;
+        int coluna1 = faixa1 * 3, coluna2 = faixa2 * 3;
         for (int i = 0; i < matriz.length/3; i++) {
             permutarColunas(matriz, coluna1, coluna2);
             coluna1++;
