@@ -5,6 +5,9 @@ public class Sudoku2 {
     public static void main(String[] args) {
         int[][] quadricula = gq();
         imprimirQD(quadricula);
+        permutarFaixasHorizontais(quadricula, 0, 2);
+        System.out.println(" ");
+        imprimirQD(quadricula);
     }
     /**
      * imprime uma matriz no terminal
@@ -26,7 +29,6 @@ public class Sudoku2 {
     for(int i = 0; i < quadricula.length; i++) {
         for(int o = 0; o < quadricula.length; o++)
             quadricula[i][o] = (i / 3 + 3 * (i % 3) + o) % 9 + 1;
-        System.out.println();
     }
     return quadricula;
 }
@@ -68,32 +70,13 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param faixa1 primeira faixa a ser permutar
      * @param faixa2 segunda faixa a ser permutar
-     * @requires {@code (faixa1 >= 1 && faixa1 <= 3) && (faixa2 >= 1 && faixa2 <=)}
+     * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
-        int auxiliarm, linha1 = 0, coluna2 = 0;
-        switch (faixa1) {
-            case 2:
-                linha1 = 3;
-                break;
-            case 3:
-                linha1 = 6;
-                break;
-        }
-        switch (faixa2) {
-            case 2:
-                linha2 = 3;
-                break;
-            case 3:
-                linha2 = 6;
-                break;
-        }
+        int auxiliar, linha1 = faixa1 * 3, linha2 = faixa2 * 3;
+       
         for (int i = 0; i < matriz.length/3; i++) {
-            for (int o = 0; o < matriz.length; o++) {
-                auxiliar = matriz[linha1][o];
-                matriz[linha1][o] = matriz[linha2][o]; 
-                matriz[linha2][o] = auxiliar;
-            }
+            permutarLinhas(matriz, linha1, linha2);
             linha1++;
             linha2++;
         }
@@ -107,29 +90,9 @@ public class Sudoku2 {
      * @requires {@code (faixa1 >= 1 && faixa1 <= 3) && (faixa2 >= 1 && faixa2 <=)}
      */
     public static void permutarFaixasVerticais(int[][] matriz, int faixa1, int faixa2) {
-        int auxiliar, coluna1 = 0, coluna2 = 0;
-        switch (faixa1) {
-            case 2:
-                coluna1 = 3;
-                break;
-            case 3:
-                coluna1 = 6;
-                break;
-        }
-        switch (faixa2) {
-            case 2:
-                coluna2 = 3;
-                break;
-            case 3:
-                coluna2 = 6;
-                break;
-        }
+        int auxiliar, coluna1 = faixa1 * 3, coluna2 = faixa2 * 3;
         for (int i = 0; i < matriz.length/3; i++) {
-            for (int o = 0; o < matriz.length; o++) {
-                auxiliar = matriz[o][coluna1];
-                matriz[o][coluna1] = matriz[o][coluna2]; 
-                matriz[o][coluna2] = auxiliar;
-            }
+            permutarColunas(matriz, coluna1, coluna2);
             coluna1++;
             coluna2++;
         }
