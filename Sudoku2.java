@@ -40,14 +40,24 @@ public class Sudoku2 {
      * @return true se o vetor for válido, false se não o for
      */
     public static boolean validadeDoVetor(int[] vetor) {
-        int produto = 1, tamanho = 0;
-        for (int i = 0; i < vetor.length; i++) {
-            produto *= vetor[i];
-            tamanho++;
+        int[] base = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int contador = 0; // o número de equivalencias encontradas
+        for (int i = 0; i < base.length; i++) {
+            for (int j = 0; j < vetor.length; j++) {
+                if (base[i] == vetor[j]) {
+                    contador++;
+                    break;
+                }
+            }
         }
-        return ((produto == 1*2*3*4*5*6*7*8*9) && (tamanho == 9))? true : false;
+        return (contador == base.length && vetor.length == base.length);
     }
 
+    /**
+     * Verifica se cada linha, cada coluna e cada bloco da quadrícula contem todos os dígitos de um a nove
+     * @param matriz matriz a ser analizada
+     * @return {@code true} se for válida, {@code false} se não
+     */
     public static boolean validadeDaQuadricula(int[][] matriz) {
         boolean validade = true;
         int[] vetor = new int[matriz.length]; // recebe a linha/coluna/bloco a ser verfificado
@@ -66,6 +76,31 @@ public class Sudoku2 {
                 validade = false;
                 break;
             }
+        }
+        // blocos
+        int linhaDeBlocos = 0;
+        for (int q = 0; q < vetor.length / 3; q++) { // para cada linha de blocos
+            int colunaDeBlocos = 0;
+            // faixa de blocos
+            for (int p = 0; p < vetor.length / 3; p++) { // para cada coluna de blocos 
+                int o = 0; // repetições para o vetor
+                // bloco
+                int cont = 0;
+                for (int i = linhaDeBlocos * 3; cont < 3; i++) { // para cada linha do bloco
+                    int cont2 = 0;
+                    for (int j = colunaDeBlocos * 3; cont2 < 3; j++) { // para cada coluna do bloco
+                        vetor[o] = matriz[i][j];
+                        o++;
+                        cont2++;
+                    }
+                    cont++;
+                }
+                colunaDeBlocos++;
+                if (!validadeDoVetor(vetor))
+                    validade = false;
+                
+            }
+            linhaDeBlocos++;
         }
         return validade;
     }
