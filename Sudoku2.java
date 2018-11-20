@@ -25,6 +25,7 @@ public class Sudoku2 {
      * Lê uma quadrícula inserida linha por linha no terminal
      * @param scan instancia da classe Scanner usada para ler no teminal
      */
+<<<<<<< HEAD
     public static void lerQuadricula(Scanner scan) {
         int[][] quadricula = new int [9][9];
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
@@ -52,5 +53,36 @@ public class Sudoku2 {
                 System.out.print(quadricula[i][j]);
             System.out.println();
         }
+=======
+    public static boolean validadeDoVetor(int[] vetor) {
+        int produto = 1, tamanho = 0;
+        for (int i = 0; i < vetor.length; i++) {
+            produto *= vetor[i];
+            tamanho++;
+        }
+        return ((produto == 1*2*3*4*5*6*7*8*9) && (tamanho == 9))? true : false;
+    }
+
+    public static boolean validadeDaQuadricula(int[][] matriz) {
+        boolean validade = true;
+        int[] vetor = new int[matriz.length]; // recebe a linha/coluna/bloco a ser verfificado
+        for (int i = 0; i < matriz.length; i++) {
+            // linhas
+            for (int j = 0; j < matriz.length; j++)
+                vetor[j] = matriz[i][j]; // o vetor recebe uma linha da matriz por vez para verificação
+            if (!validadeDoVetor(vetor)) {// verificação da validade do vetor
+                validade = false;
+                break;
+            }
+            // colunas
+            for (int j = 0; j < matriz.length; j++)
+                vetor[j] = matriz[j][i]; // o vetor recebe uma coluna da matriz por vez para verificação
+            if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
+                validade = false;
+                break;
+            }
+        }
+        return validade;
+>>>>>>> parent of 42cab60... adicionada fuincionalidade de verficação de blocos ao método validadeDaQuadricula (editado)
     }
 }

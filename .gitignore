@@ -2,7 +2,6 @@
 .vscode
 Sudoku2.iml
 .gitignore
-Testes.java
 # Compiled class file
 *.class
 
