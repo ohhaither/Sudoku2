@@ -2,11 +2,6 @@ import java.util.Scanner;
 
 public class Sudoku2 {
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        lerQuadricula(scan);
-    }
-
     /**
      * Faz a leitura de um número inteiro no terminal  e certifica que este encontre-se no intervalo 
      * indicado, apresentando uma mensagem de erro caso não se encontre
