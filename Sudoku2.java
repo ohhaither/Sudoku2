@@ -20,12 +20,12 @@ public class Sudoku2 {
         } while (num < inicio || num > fim);
         return num;
     }
+
     // Se inserir espaçoes entre os dígitos haverá um erro
     /**
      * Lê uma quadrícula inserida linha por linha no terminal
      * @param scan instancia da classe Scanner usada para ler no teminal
      */
-<<<<<<< HEAD
     public static void lerQuadricula(Scanner scan) {
         int[][] quadricula = new int [9][9];
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
@@ -53,7 +53,13 @@ public class Sudoku2 {
                 System.out.print(quadricula[i][j]);
             System.out.println();
         }
-=======
+    }
+
+    /**
+     * Verifica se um vetor contém todos os números de um a nove
+     * @param vetor vetor a ser analizado
+     * @return true se f«o vetor for válido, false se não for
+     */
     public static boolean validadeDoVetor(int[] vetor) {
         int produto = 1, tamanho = 0;
         for (int i = 0; i < vetor.length; i++) {
@@ -62,7 +68,12 @@ public class Sudoku2 {
         }
         return ((produto == 1*2*3*4*5*6*7*8*9) && (tamanho == 9))? true : false;
     }
-
+    
+    /**
+     * Verifica se todas as linhas, colunas e blocos de uma matriz contêm os núemeros de 1 a 9
+     * @param matriz matriz a ser analizada
+     * @return true se a matriz for válidade, false se não
+     */
     public static boolean validadeDaQuadricula(int[][] matriz) {
         boolean validade = true;
         int[] vetor = new int[matriz.length]; // recebe a linha/coluna/bloco a ser verfificado
@@ -83,6 +94,5 @@ public class Sudoku2 {
             }
         }
         return validade;
->>>>>>> parent of 42cab60... adicionada fuincionalidade de verficação de blocos ao método validadeDaQuadricula (editado)
     }
 }
