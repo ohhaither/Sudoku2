@@ -5,9 +5,6 @@ public class Sudoku2 {
     public static void main(String[] args) {
         int[][] quadricula = gq();
         imprimirQD(quadricula);
-        permutarFaixasHorizontais(quadricula, 0, 2);
-        System.out.println(" ");
-        imprimirQD(quadricula);
     }
     /**
      * imprime uma matriz no terminal
