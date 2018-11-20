@@ -25,11 +25,14 @@ public class Sudoku2 {
     /**
      * Gera uma quadrícula de 9x9 preenchidada com números de 1 a 9
      * @return quadrícula inserida numa matriz
-     */public static int[][] gq () {
-    int [][] quadricula = new int[9][9]; 
-    for(int i = 0; i < quadricula.length; i++) {
-        for(int o = 0; o < quadricula.length; o++)
-            quadricula[i][o] = (i / 3 + 3 * (i % 3) + o) % 9 + 1;
+     */
+    public static int[][] gq () {
+        int [][] quadricula = new int[9][9]; 
+        for(int i = 0; i < quadricula.length; i++) {
+            for(int o = 0; o < quadricula.length; o++)
+                quadricula[i][o] = (i / 3 + 3 * (i % 3) + o) % 9 + 1;
+        }
+        return quadricula;
     }
     
     /**
