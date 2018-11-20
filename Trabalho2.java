@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Trabalho2
@@ -30,6 +31,26 @@ public class Trabalho2
 	    }
 	}
 	return quadricula;
+    }
+    
+    public static int[][] permutacaonumeros(int[][] n){
+	Random rand1= new Random();
+	Random rand2= new Random();
+	int n1=rand1.nextInt(9)+1;
+	int n2=rand2.nextInt(9)+1;
+	for (int i = 0; i < n.length; i++)
+	{
+	    for (int j = 0; j < n.length; j++)
+	    {
+		if(n[i][j]==n1)
+		  n[i][j]=0;
+		if(n[i][j]==n2)
+		    n[i][j]=n1;
+		if(n[i][j]==0)
+		    n[i][j]=n2;
+	    }
+	}
+	return n;
     }
 
     public static int[][] reflexaoVertical(int[][] n)
@@ -141,6 +162,9 @@ public class Trabalho2
 
 	    switch (d)
 	    {
+	    case '1':
+		sudoku= permutacaonumeros(sudoku);
+		break;
 	    case '2':
 		sudoku = permutacaoLinhas(sudoku, Character.getNumericValue(numero.next().charAt(0)), Character.getNumericValue(numero.next().charAt(0)));
 		break;
