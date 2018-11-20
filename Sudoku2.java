@@ -2,22 +2,26 @@ import java.util.Scanner;
 
 public class Sudoku2 {
 
-    public static void main(String[] args) {
-        int[][] quadricula = gq();
-        imprimirQD(quadricula);
-    }
     /**
-     * imprime uma matriz no terminal
-     * @param matriz matriz a ser impriida
-    */
-    public static void imprimirQD(int[][] matriz) {
-        for (int i = 0; i < matriz.length; i++) { // linha
-            for (int j = 0; j < matriz.length; j++) // coluna
-                System.out.print(matriz[i][j] + " ");
-            System.out.println();
-        }
+     * Faz a leitura de um número inteiro no terminal  e certifica que este encontre-se no intervalo 
+     * indicado, apresentando uma mensagem de erro caso não se encontre
+     * @param scan instancia da classe Scanner para que se faça a leitura
+     * @param inicio início do intervalo
+     * @param fim do intervalo
+     * @param msgErro mensagem apresentada caso o número inserido não encontre-se no intervalo
+     * @return número depois depois de ser aceite
+     */
+    public static int lerNumeroNoIntervalo(Scanner scan, int inicio, int fim, String msgErro) {
+        int num;
+        do {
+            num = scan.nextInt();
+            if (num < inicio || num > fim)
+                System.out.println(msgErro);
+        } while (num < inicio || num > fim);
+        return num;
     }
 
+    // Se inserir espaçoes entre os dígitos haverá um erro
     /**
      * Gera uma quadrícula de 9x9 preenchidada com números de 1 a 9
      * @return quadrícula inserida numa matriz
@@ -27,39 +31,79 @@ public class Sudoku2 {
         for(int o = 0; o < quadricula.length; o++)
             quadricula[i][o] = (i / 3 + 3 * (i % 3) + o) % 9 + 1;
     }
-    return quadricula;
-}
+    
+    /**
+     * Lê uma quadrícula inserida linha por linha no terminal
+     * @param scan instancia da classe Scanner usada para ler no teminal
+     */
+    public static void lerQuadricula(Scanner scan) {
+        int[][] quadricula = new int [9][9];
+        for (int i = 0; i < 9; i++) { // para cada linha da matriz
+            int cont = 0;
+            do {
+                int linha = scan.nextInt(); // linha inserida pelo usuário
+                int j = 8; // contador dos dígitos de num e indice para as colunas respetivamente
+                while (linha > 0) {
+                    cont++;
+                    quadricula[i][j] = linha % 10;
+                    linha /= 10;
+                    j--;
+                }
+                if (cont < 9) {
+                    System.out.println
+                    ("A linha deve ter pelos menos 9 dígitos\nSe tiver mais o exesso será excluído.\nTente novamente!");
+                    cont = 0;
+                }
+
+            } while (cont < 9);
+        }
+        System.out.println();
+        for (int i = 0; i < quadricula.length; i++) {
+            for (int j = 0; j < quadricula.length; j++)
+                System.out.print(quadricula[i][j]);
+            System.out.println();
+        }
+    }
 
     /**
-     * Faz a permutação dos valores de duas linhas escolhidas numa matriz
-     * Obs: Ter em conta que o índice das linhas começa em 0
-     * @param matriz matriz a ser modificada
-     * @param linha1 primeira linha a permutar
-     * @param linha2 segunda linha a permutar
+     * Verifica se um vetor contém todos os números de um a nove
+     * @param vetor vetor a ser analizado
+     * @return true se f«o vetor for válido, false se não for
      */
-    public static void permutarLinhas(int[][] matriz, int linha1, int linha2) {
-        int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
-        for (int i = 0; i < matriz.length; i++) {
-            auxiliar = matriz[linha1][i];
-            matriz[linha1][i] = matriz[linha2][i];
-            matriz[linha2][i] = auxiliar;
+    public static boolean validadeDoVetor(int[] vetor) {
+        int produto = 1, tamanho = 0;
+        for (int i = 0; i < vetor.length; i++) {
+            produto *= vetor[i];
+            tamanho++;
         }
+        return ((produto == 1*2*3*4*5*6*7*8*9) && (tamanho == 9))? true : false;
     }
     
     /**
-     * Faz a permutação dos valores de duas colunas escolhidas numa matriz
-     * Obs: Ter em conta que o índice das colunas começa em 0
-     * @param matriz matriz a ser modificada
-     * @param linha1 primeira coluna a permutar
-     * @param linha2 segunda coluna a permutar
+     * Verifica se todas as linhas, colunas e blocos de uma matriz contêm os núemeros de 1 a 9
+     * @param matriz matriz a ser analizada
+     * @return true se a matriz for válidade, false se não
      */
-    public static void permutarColunas(int[][] matriz, int coluna1, int coluna2) {
-        int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
+    public static boolean validadeDaQuadricula(int[][] matriz) {
+        boolean validade = true;
+        int[] vetor = new int[matriz.length]; // recebe a linha/coluna/bloco a ser verfificado
         for (int i = 0; i < matriz.length; i++) {
-            auxiliar = matriz[i][coluna1];
-            matriz[i][coluna1] = matriz[i][coluna2];
-            matriz[i][coluna2] = auxiliar;
+            // linhas
+            for (int j = 0; j < matriz.length; j++)
+                vetor[j] = matriz[i][j]; // o vetor recebe uma linha da matriz por vez para verificação
+            if (!validadeDoVetor(vetor)) {// verificação da validade do vetor
+                validade = false;
+                break;
+            }
+            // colunas
+            for (int j = 0; j < matriz.length; j++)
+                vetor[j] = matriz[j][i]; // o vetor recebe uma coluna da matriz por vez para verificação
+            if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
+                validade = false;
+                break;
+            }
         }
+        return validade;
     }
     
     /**

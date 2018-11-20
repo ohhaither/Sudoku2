@@ -1,5 +1,13 @@
+import java.util.Scanner;
 public class Testes {
     public static void main(String[] arg) {
+<<<<<<< HEAD
+        Scanner scan = new Scanner(System.in);
+        int[] vetor = new int[3];
+        vetor = scan.nextInt();
+    }
+
+=======
 
             int [][] quadricula = Sudoku2.gq();
             Sudoku2.imprimirQD(quadricula);
@@ -80,4 +88,5 @@ public class Testes {
             coluna2++;
         }
     }
+>>>>>>> parent of 42cab60... adicionada fuincionalidade de verficação de blocos ao método validadeDaQuadricula (editado)
 }
