@@ -3,105 +3,59 @@ import java.util.Scanner;
 public class Sudoku2 {
 
     public static void main(String[] args) {
-        int[][] quadricula = gq();
-        imprimirQD(quadricula);
-        System.out.println(" ");
-        System.out.println(validadeDaQuadricula(quadricula));
+        Scanner scan = new Scanner(System.in);
+        lerQuadricula(scan);
     }
 
     /**
-     * imprime uma matriz no terminal
-     * @param matriz matriz a ser impriida
-    */
-    public static void imprimirQD(int[][] matriz) {
-        for (int i = 0; i < matriz.length; i++) { // linha
-            for (int j = 0; j < matriz.length; j++) // coluna
-                System.out.print(matriz[i][j] + " ");
+     * Faz a leitura de um número inteiro no terminal  e certifica que este encontre-se no intervalo 
+     * indicado, apresentando uma mensagem de erro caso não se encontre
+     * @param scan instancia da classe Scanner para que se faça a leitura
+     * @param inicio início do intervalo
+     * @param fim do intervalo
+     * @param msgErro mensagem apresentada caso o número inserido não encontre-se no intervalo
+     * @return número depois depois de ser aceite
+     */
+    public static int lerNumeroNoIntervalo(Scanner scan, int inicio, int fim, String msgErro) {
+        int num;
+        do {
+            num = scan.nextInt();
+            if (num < inicio || num > fim)
+                System.out.println(msgErro);
+        } while (num < inicio || num > fim);
+        return num;
+    }
+    // Se inserir espaçoes entre os dígitos haverá um erro
+    /**
+     * Lê uma quadrícula inserida linha por linha no terminal
+     * @param scan instancia da classe Scanner usada para ler no teminal
+     */
+    public static void lerQuadricula(Scanner scan) {
+        int[][] quadricula = new int [9][9];
+        for (int i = 0; i < 9; i++) { // para cada linha da matriz
+            int cont = 0;
+            do {
+                int linha = scan.nextInt(); // linha inserida pelo usuário
+                int j = 8; // contador dos dígitos de num e indice para as colunas respetivamente
+                while (linha > 0) {
+                    cont++;
+                    quadricula[i][j] = linha % 10;
+                    linha /= 10;
+                    j--;
+                }
+                if (cont < 9) {
+                    System.out.println
+                    ("A linha deve ter pelos menos 9 dígitos\nSe tiver mais o exesso será excluído.\nTente novamente!");
+                    cont = 0;
+                }
+
+            } while (cont < 9);
+        }
+        System.out.println();
+        for (int i = 0; i < quadricula.length; i++) {
+            for (int j = 0; j < quadricula.length; j++)
+                System.out.print(quadricula[i][j]);
             System.out.println();
         }
-    }
-
-    /**
-     * Gera uma quadrícula de 9x9 preenchidada com números de 1 a 9
-     * @return quadrícula inserida numa matriz
-     */
-    public static int[][] gq () {
-    int [][] quadricula = new int[9][9]; 
-    for(int i = 0; i < quadricula.length; i++) {
-        for(int o = 0; o < quadricula.length; o++)
-            quadricula[i][o] = (i / 3 + 3 * (i % 3) + o) % 9 + 1;
-    }
-    return quadricula;
-    }
-
-    /**
-     * Verifica se um vetor tem 9 elementos e se contem os valores de um a 9
-     * @param vetor vetor a ser analizado
-     * @return true se o vetor for válido, false se não o for
-     */
-    public static boolean validadeDoVetor(int[] vetor) {
-        int[] base = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int contador = 0; // o número de equivalencias encontradas
-        for (int i = 0; i < base.length; i++) {
-            for (int j = 0; j < vetor.length; j++) {
-                if (base[i] == vetor[j]) {
-                    contador++;
-                    break;
-                }
-            }
-        }
-        return (contador == base.length && vetor.length == base.length);
-    }
-
-    /**
-     * Verifica se cada linha, cada coluna e cada bloco da quadrícula contem todos os dígitos de um a nove
-     * @param matriz matriz a ser analizada
-     * @return {@code true} se for válida, {@code false} se não
-     */
-    public static boolean validadeDaQuadricula(int[][] matriz) {
-        boolean validade = true;
-        int[] vetor = new int[matriz.length]; // recebe a linha/coluna/bloco a ser verfificado
-        for (int i = 0; i < matriz.length; i++) {
-            // linhas
-            for (int j = 0; j < matriz.length; j++)
-                vetor[j] = matriz[i][j]; // o vetor recebe uma linha da matriz por vez para verificação
-            if (!validadeDoVetor(vetor)) {// verificação da validade do vetor
-                validade = false;
-                break;
-            }
-            // colunas
-            for (int j = 0; j < matriz.length; j++)
-                vetor[j] = matriz[j][i]; // o vetor recebe uma coluna da matriz por vez para verificação
-            if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
-                validade = false;
-                break;
-            }
-        }
-        // blocos
-        int linhaDeBlocos = 0;
-        for (int q = 0; q < vetor.length / 3; q++) { // para cada linha de blocos
-            int colunaDeBlocos = 0;
-            // faixa de blocos
-            for (int p = 0; p < vetor.length / 3; p++) { // para cada coluna de blocos 
-                int o = 0; // repetições para o vetor
-                // bloco
-                int cont = 0;
-                for (int i = linhaDeBlocos * 3; cont < 3; i++) { // para cada linha do bloco
-                    int cont2 = 0;
-                    for (int j = colunaDeBlocos * 3; cont2 < 3; j++) { // para cada coluna do bloco
-                        vetor[o] = matriz[i][j];
-                        o++;
-                        cont2++;
-                    }
-                    cont++;
-                }
-                colunaDeBlocos++;
-                if (!validadeDoVetor(vetor))
-                    validade = false;
-                
-            }
-            linhaDeBlocos++;
-        }
-        return validade;
     }
 }
