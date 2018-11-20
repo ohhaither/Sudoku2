@@ -2,13 +2,6 @@ import java.util.Scanner;
 
 public class Sudoku2 {
 
-    public static void main(String[] args) {
-        int[][] quadricula = gq();
-        imprimirQD(quadricula);
-        System.out.println(" ");
-        System.out.println(validadeDaQuadricula(quadricula));
-    }
-
     /**
      * imprime uma matriz no terminal
      * @param matriz matriz a ser impriida
