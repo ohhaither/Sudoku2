@@ -1,6 +1,18 @@
 import java.util.Scanner;
 
 public class Sudoku2 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int[][] quad = gq();
+        imprimirQD(quad);
+        System.out.println();
+        System.out.println(validadeDaQuadricula(quad));
+        System.out.println();
+        quad = lerQuadricula(scan);
+        System.out.println(validadeDaQuadricula(quad));
+        permutarColunas(quad, 1, 3);
+        imprimirQD(quad);
+    }
     
     /**
      * Gera uma quadrícula de 9x9 preenchidada com números de 1 a 9
@@ -27,7 +39,6 @@ public class Sudoku2 {
         }
     }
         
-
     /**
      * Faz a leitura de um número inteiro no terminal  e certifica que este encontre-se no intervalo 
      * indicado, apresentando uma mensagem de erro caso não se encontre
@@ -46,12 +57,13 @@ public class Sudoku2 {
         } while (num < inicio || num > fim);
         return num;
     }
+
     // Se adicionar espaços entre os intervalos haverá erro
     /**
      * Lê uma quadrícula inserida linha por linha no terminal
      * @param scan instancia da classe Scanner usada para ler no teminal
      */
-    public static void lerQuadricula(Scanner scan) {
+    public static int[][] lerQuadricula(Scanner scan) {
         int[][] quadricula = new int [9][9];
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
             int cont = 0;
@@ -69,7 +81,6 @@ public class Sudoku2 {
                     ("A linha deve ter pelos menos 9 dígitos\nSe tiver mais o exesso será excluído.\nTente novamente!");
                     cont = 0;
                 }
-
             } while (cont < 9);
         }
         System.out.println();
@@ -78,6 +89,7 @@ public class Sudoku2 {
                 System.out.print(quadricula[i][j]);
             System.out.println();
         }
+        return quadricula;
     }
 
     /**
@@ -117,6 +129,30 @@ public class Sudoku2 {
                 validade = false;
                 break;
             }
+        }
+        // blocos
+        int linhaDeBlocos = 0;
+        for (int q = 0; q < vetor.length / 3; q++) { // para cada linha de blocos
+            int colunaDeBlocos = 0;
+            // faixa de blocos
+            for (int p = 0; p < vetor.length / 3; p++) { // para cada coluna de blocos 
+                int o = 0; // repetições para o vetor
+                // bloco
+                int cont = 0;
+                for (int i = linhaDeBlocos * 3; cont < 3; i++) { // para cada linha do bloco
+                    int cont2 = 0;
+                    for (int j = colunaDeBlocos * 3; cont2 < 3; j++) { // para cada coluna do bloco
+                        vetor[o] = matriz[i][j];
+                        o++;
+                        cont2++;
+                    }
+                    cont++;
+                }
+                colunaDeBlocos++;
+                if (!validadeDoVetor(vetor))
+                    validade = false;
+            }
+            linhaDeBlocos++;
         }
         return validade;
     }
