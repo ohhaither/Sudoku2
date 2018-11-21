@@ -7,23 +7,22 @@ public class Sudoku2 {
         int[][] quad = gq();
         imprimirQD(quad);
         System.out.println();
-        System.out.println(validadeDaQuadricula(quad));
+        reflexaoHorizontal(quad);
+        imprimirQD(quad);
         System.out.println();
-        quad = lerQuadricula(scan);
-        System.out.println(validadeDaQuadricula(quad));
-        permutarColunas(quad, 1, 3);
+        reflexaoVertical(quad);
         imprimirQD(quad);
     }
     
     /**
-     * Gera uma quadrícula de 9x9 preenchidada com números de 1 a 9
+     * Gera uma quadrícula 9x9 preenchidada com números de 1 a 9
      * @return quadrícula inserida numa matriz
      */
     public static int[][] gq () {
         int [][] quadricula = new int[9][9]; 
         for(int i = 0; i < quadricula.length; i++) {
-            for(int o = 0; o < quadricula.length; o++)
-                quadricula[i][o] = (i / 3 + 3 * (i % 3) + o) % 9 + 1;
+            for(int j = 0; j < quadricula.length; j++)
+                quadricula[i][j] = (i / 3 + 3 * (i % 3) + j) % 9 + 1;
         }
         return quadricula;
     }
@@ -79,7 +78,8 @@ public class Sudoku2 {
                 }
                 if (cont < 9) {
                     System.out.println
-                    ("A linha deve ter pelos menos 9 dígitos\nSe tiver mais o exesso será excluído.\nTente novamente!");
+                    ("A linha deve ter pelos menos 9 dígitos" 
+                    + "\nSe tiver mais o exesso será excluído.\nTente novamente!");
                     cont = 0;
                 }
             } while (cont < 9);
@@ -220,6 +220,36 @@ public class Sudoku2 {
             permutarColunas(matriz, coluna1, coluna2);
             coluna1++;
             coluna2++;
+        }
+    }
+
+    /**
+     * O conteúdo da linha {@code i} passa a ser o da linha {@code matriz.length - 1 - i} 
+     * e vice-versa.
+     * @param matriz matriz a ser modificada
+     */
+    public static void reflexaoHorizontal(int[][] matriz) {
+        for (int i = 0; i < matriz.length / 2; i++) { // linhas
+            for (int j = 0; j < matriz.length; j++) { //colunas
+                int auxiliar = matriz[i][j];
+                matriz[i][j] = matriz[matriz.length - 1 - i][j];
+                matriz[matriz.length - 1 - i][j] = auxiliar;
+            }
+        }
+    }
+    
+    /**
+     * O conteúdo da coluna {@code j} passa a ser o da linha {@code matriz.length - 1 - j} 
+     * e vice-versa.
+     * @param matriz matriz a ser modificada
+     */
+    public static void reflexaoVertical(int[][] matriz) {
+        for (int j = 0; j < matriz.length / 2; j++) {
+            for (int i = 0; i < matriz.length; i++) {
+                int auxiliar = matriz[i][j];
+                matriz[i][j] = matriz[i][matriz.length - 1 - j];
+                matriz[i][matriz.length - 1 - j] = auxiliar;
+            }
         }
     }
 }
