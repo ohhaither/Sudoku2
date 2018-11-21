@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 
 public class Sudoku2 {
     
@@ -7,10 +8,8 @@ public class Sudoku2 {
         int[][] quad = gq();
         imprimirQD(quad);
         System.out.println();
-        reflexaoHorizontal(quad);
-        imprimirQD(quad);
+        permutarNumeros(quad, 8, 6);
         System.out.println();
-        reflexaoVertical(quad);
         imprimirQD(quad);
     }
     
@@ -223,6 +222,27 @@ public class Sudoku2 {
         }
     }
 
+    /* n1 e n2 serão gerados aleatoriamente no métoto main para que possam ser reutilizados
+    para dizer ao usuáio quais números foram alterados por exemplo */
+    /**
+     * Dados n1 e n2, procura todas as ocorencias de n1 numa matriz e substirui por n2 e vice-versa
+     * @param matriz matriz a ser modificada
+     * @param n1 primeiro número a permutar
+     * @param n2 segundo número a permutar
+     */
+    public static void permutarNumeros(int[][] matriz, int n1, int n2) {
+        Random rand = new Random();
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz.length; j++) {
+                if(matriz[i][j] == n1)
+                    matriz[i][j] = 0;
+                if(matriz[i][j] == n2)
+                    matriz[i][j] = n1;
+                if(matriz[i][j] == 0)
+                    matriz[i][j] = n2;
+            }
+        }
+    }
     /**
      * O conteúdo da linha {@code i} passa a ser o da linha {@code matriz.length - 1 - i} 
      * e vice-versa.
