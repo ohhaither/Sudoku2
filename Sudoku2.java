@@ -166,11 +166,14 @@ public class Sudoku2 {
      */
     public static void permutarLinhas(int[][] matriz, int linha1, int linha2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
+        if(validarPermutacao(sudoku,linha1,linha2)==true){
         for (int i = 0; i < matriz.length; i++) {
             auxiliar = matriz[linha1][i];
             matriz[linha1][i] = matriz[linha2][i];
             matriz[linha2][i] = auxiliar;
         }
+      }else
+            System.out.println("Permutação inválida. Por favor tente de novo.")
     }
     
     /**
@@ -182,11 +185,14 @@ public class Sudoku2 {
      */
     public static void permutarColunas(int[][] matriz, int coluna1, int coluna2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
+        if(validarPermutacao(sudoku,coluna1,coluna2)==true){
         for (int i = 0; i < matriz.length; i++) {
             auxiliar = matriz[i][coluna1];
             matriz[i][coluna1] = matriz[i][coluna2];
             matriz[i][coluna2] = auxiliar;
         }
+      }else
+            System.out.println("Permutação inválida. Por favor tente de novo.")
     }
     
     /**
@@ -198,12 +204,14 @@ public class Sudoku2 {
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
         int linha1 = faixa1 * 3, linha2 = faixa2 * 3;
-       
+        if(validarPermutacaoFaixas(sudoku,faixa1,faixa2)==true){
         for (int i = 0; i < matriz.length/3; i++) {
             permutarLinhas(matriz, linha1, linha2);
             linha1++;
             linha2++;
         }
+      }else
+            System.out.println("permutação inválida. Tente novamente.");
     }
 
     /**
@@ -215,11 +223,14 @@ public class Sudoku2 {
      */
     public static void permutarFaixasVerticais(int[][] matriz, int faixa1, int faixa2) {
         int coluna1 = faixa1 * 3, coluna2 = faixa2 * 3;
+        if(validarPermutacaoFaixas(sudoku,faixa1,faixa2)==true){
         for (int i = 0; i < matriz.length/3; i++) {
             permutarColunas(matriz, coluna1, coluna2);
             coluna1++;
             coluna2++;
         }
+      }else
+            System.out.println("permutação inválida. Tente novamente.");
     }
 
     /* n1 e n2 serão gerados aleatoriamente no métoto main para que possam ser reutilizados
@@ -272,4 +283,21 @@ public class Sudoku2 {
             }
         }
     }
+    public static boolean validarPermutacao(int[][]n, int i,int m) {
+	    boolean validar = false;
+	    if(i>=1 && i<=3 && m>=1 && m<=3)
+	        validar=true;
+	    if(i>=4 && i<=6 && m>=4 && m<=6)
+	        validar=true;
+	    if(i>=7 && i<=9 && m>=7 && m<=9)
+	        validar=true;
+	    return validar;
+    }
+    public static boolean validarPermutacaoFaixas(int[][]n,int i,int m) {
+	    boolean validar=false;
+	    if(i>=1 && i<=3 && m>=1 && m<=3)
+	        validar=true;
+	    return validar;
+    }
+
 }
