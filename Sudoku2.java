@@ -5,10 +5,7 @@ public class Sudoku2 {
     
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        int[][] quad = gq();
-        imprimirQD(quad);
-        System.out.println();
-        permutarNumeros(quad, 8, 6);
+        int[][] quad = lerQuadricula(scan);
         System.out.println();
         imprimirQD(quad);
     }
@@ -65,29 +62,22 @@ public class Sudoku2 {
     public static int[][] lerQuadricula(Scanner scan) {
         int[][] quadricula = new int [9][9];
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
-            int cont = 0;
+            int contDigitos;
             do {
-                int linha = scan.nextInt(); // linha inserida pelo usuário
-                int j = 8; // contador dos dígitos de num e indice para as colunas respetivamente
-                while (linha > 0) {
-                    cont++;
-                    quadricula[i][j] = linha % 10;
-                    linha /= 10;
-                    j--;
+                contDigitos = 0;
+                int j = 0;
+                while (scan.hasNextInt(9)) {
+                    quadricula[i][j] = scan.nextInt();
+                    contDigitos++;
+                    j++;
                 }
-                if (cont < 9) {
+                if (contDigitos < quadricula.length - 1) {
                     System.out.println
                     ("A linha deve ter pelos menos 9 dígitos" 
                     + "\nSe tiver mais o exesso será excluído.\nTente novamente!");
-                    cont = 0;
+                    contDigitos = 0;
                 }
-            } while (cont < 9);
-        }
-        System.out.println();
-        for (int i = 0; i < quadricula.length; i++) {
-            for (int j = 0; j < quadricula.length; j++)
-                System.out.print(quadricula[i][j]);
-            System.out.println();
+            } while (contDigitos < quadricula.length - 1);
         }
         return quadricula;
     }
@@ -231,7 +221,6 @@ public class Sudoku2 {
      * @param n2 segundo número a permutar
      */
     public static void permutarNumeros(int[][] matriz, int n1, int n2) {
-        Random rand = new Random();
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz.length; j++) {
                 if(matriz[i][j] == n1)
@@ -243,6 +232,7 @@ public class Sudoku2 {
             }
         }
     }
+
     /**
      * O conteúdo da linha {@code i} passa a ser o da linha {@code matriz.length - 1 - i} 
      * e vice-versa.
@@ -272,4 +262,49 @@ public class Sudoku2 {
             }
         }
     }
+
+    public static void imprimirMenu(Random ran, Scanner scan)
+    {
+        String[] opcoes =
+        { // menu
+            "0 - Sair", "1 - Aplicar permutacao de dois numeros",
+            "2 - Aplicar permutacao de duas linhas de uma mesma faixa horizontal",
+            "3 - Aplicar permutação de duas colunas de uma mesma faixa vertical",
+            "4 - Aplicar permutacao de duas faixas horizontais", "5 - Aplicar permutacao de duas faixas verticais",
+            "6 - Aplicar reflexao horizontal", "7 - Aplicar reflexao vertical", "8 - Indicar quadricula" };
+
+        System.out.println("Quadrícula corente: ");
+        int[][] sudoku = gq();
+        imprimirQD(sudoku);
+        // Imprime as opções
+        for (int i = 0; i < opcoes.length; i++)
+            System.out.println(opcoes[i]);
+        
+        int opcao = 1;
+        do {
+            opcao = scan.nextInt();
+            switch (opcao) {
+                case 1:
+                    int n1 = ran.nextInt(9), n2 = ran.nextInt(9);
+                    permutarNumeros(sudoku, n1, n2);
+                    imprimirQD(sudoku);;
+                    break;
+                case 2:
+                    System.out.print("Insira a primeira linha: ");
+                    int linha1 = scan.nextInt();
+                    System.out.print("Insira a segunda linha: ");
+                    int linha2 = scan.nextInt();
+                    permutarLinhas(sudoku, linha1, linha2);
+                    imprimirQD(sudoku);;
+                    break;
+                case 3:
+                    permutarColunas(sudoku, scan.nextInt(), scan.nextInt());
+                    imprimirQD(sudoku);;
+                    break;
+            }
+        } while (opcao != '0');
+        
+    }
 }
+
+
