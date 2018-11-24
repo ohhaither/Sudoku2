@@ -6,13 +6,12 @@ public class Sudoku2 {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int[][] quad = lerQuadricula(scan);
-        System.out.println();
         imprimirQD(quad);
     }
     
     /**
-     * Gera uma quadrícula 9x9 preenchidada com números de 1 a 9
-     * @return quadrícula inserida numa matriz
+     * Gera uma quadrícula 9x9 preenchidada com números de 1 a 9 e insere-a num vetor bidimensional
+     * @return matriz bidimencional com a quadrícula gerada
      */
     public static int[][] gq () {
         int [][] quadricula = new int[9][9]; 
@@ -28,10 +27,19 @@ public class Sudoku2 {
      * @param matriz matriz a ser impriida
     */
     public static void imprimirQD(int[][] matriz) {
-        for (int i = 0; i < matriz.length; i++) { // linha
-            for (int j = 0; j < matriz.length; j++) // coluna
-                System.out.print(matriz[i][j] + " ");
-            System.out.println();
+        int l = 0; // índice da linha
+        for (int g = 0; g < matriz.length / 3; g++) { // por cada faixa
+            System.out.println("-----------------------");
+            for (int i = 0; i < matriz.length / 3; i++) { // por cada linha
+                for (int j = 0; j < matriz.length; j++) { // por cada coluna
+                    System.out.print(matriz[l][j] + " "); // impressão da célula
+                    if (j == 2 || j == 5 || j == 8)
+                        System.out.print("| ");
+                }
+                System.out.println();
+                l++; // linha
+            }
+            System.out.println("-----------------------");
         }
     }
         
@@ -64,14 +72,14 @@ public class Sudoku2 {
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
             int contDigitos;
             do {
-                contDigitos = 0;
+                contDigitos = 1;
                 int j = 0;
                 while (scan.hasNextInt(9)) {
                     quadricula[i][j] = scan.nextInt();
                     contDigitos++;
                     j++;
                 }
-                if (contDigitos < quadricula.length - 1) {
+                if (contDigitos < quadricula.length) {
                     System.out.println
                     ("A linha deve ter pelos menos 9 dígitos" 
                     + "\nSe tiver mais o exesso será excluído.\nTente novamente!");
@@ -182,7 +190,7 @@ public class Sudoku2 {
     /**
      * Faz a permutação dos valores de duas faixa horizontais escolhidas numa matriz de 9x9.
      * @param matriz matriz a ser modificada
-     * @param faixa1 primeira faixa a ser permutar
+     * @para m faixa1 primeira faixa a ser permutar
      * @param faixa2 segunda faixa a ser permutar
      * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
@@ -190,7 +198,7 @@ public class Sudoku2 {
         int linha1 = faixa1 * 3, linha2 = faixa2 * 3;
        
         for (int i = 0; i < matriz.length/3; i++) {
-            permutarLinhas(matriz, linha1, linha2);
+            permutarLin2has(matriz, linha1, linha2);
             linha1++;
             linha2++;
         }
