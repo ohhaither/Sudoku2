@@ -5,8 +5,7 @@ public class Sudoku2 {
     
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        int[][] quad = lerQuadricula(scan);
-        System.out.println();
+        int[][] quad = gq();
         imprimirQD(quad);
     }
     
@@ -28,10 +27,19 @@ public class Sudoku2 {
      * @param matriz matriz a ser impriida
     */
     public static void imprimirQD(int[][] matriz) {
-        for (int i = 0; i < matriz.length; i++) { // linha
-            for (int j = 0; j < matriz.length; j++) // coluna
-                System.out.print(matriz[i][j] + " ");
-            System.out.println();
+        int l = 0;
+        for (int g = 0; g < matriz.length / 3; g++) {
+            System.out.println("--------------------------");
+            for (int i = 0; i < matriz.length / 3; i++) {
+                for (int j = 0; j < matriz.length; j++) { // coluna
+                    System.out.print(matriz[l][j] + " ");
+                    if (j == 2 || j == 5 || j == 8)
+                        System.out.print(" | ");
+                }
+                System.out.println();
+                l++; // linha
+            }
+            System.out.println("--------------------------");
         }
     }
         
@@ -182,7 +190,7 @@ public class Sudoku2 {
     /**
      * Faz a permutação dos valores de duas faixa horizontais escolhidas numa matriz de 9x9.
      * @param matriz matriz a ser modificada
-     * @param faixa1 primeira faixa a ser permutar
+     * @para m faixa1 primeira faixa a ser permutar
      * @param faixa2 segunda faixa a ser permutar
      * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
@@ -190,7 +198,7 @@ public class Sudoku2 {
         int linha1 = faixa1 * 3, linha2 = faixa2 * 3;
        
         for (int i = 0; i < matriz.length/3; i++) {
-            permutarLinhas(matriz, linha1, linha2);
+            permutarLin2has(matriz, linha1, linha2);
             linha1++;
             linha2++;
         }
