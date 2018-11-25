@@ -62,7 +62,7 @@ public class Sudoku2 {
         return num;
     }
 
-    // Se adicionar espaços entre os intervalos haverá erro
+   // Se adicionar espaços entre os intervalos haverá erro
     /**
      * Lê uma quadrícula inserida linha por linha no terminal
      * @param scan instancia da classe Scanner usada para ler no teminal
@@ -70,22 +70,29 @@ public class Sudoku2 {
     public static int[][] lerQuadricula(Scanner scan) {
         int[][] quadricula = new int [9][9];
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
-            int contDigitos;
+            int cont = 0;
             do {
-                contDigitos = 1;
-                int j = 0;
-                while (scan.hasNextInt(9)) {
-                    quadricula[i][j] = scan.nextInt();
-                    contDigitos++;
-                    j++;
+                int linha = scan.nextInt(); // linha inserida pelo usuário
+                int j = 8; // contador dos dígitos de num e indice para as colunas respetivamente
+                while (linha > 0) {
+                    cont++;
+                    quadricula[i][j] = linha % 10;
+                    linha /= 10;
+                    j--;
                 }
-                if (contDigitos < quadricula.length) {
+                if (cont < 9) {
                     System.out.println
                     ("A linha deve ter pelos menos 9 dígitos" 
                     + "\nSe tiver mais o exesso será excluído.\nTente novamente!");
-                    contDigitos = 0;
+                    cont = 0;
                 }
-            } while (contDigitos < quadricula.length - 1);
+            } while (cont < 9);
+        }
+        System.out.println();
+        for (int i = 0; i < quadricula.length; i++) {
+            for (int j = 0; j < quadricula.length; j++)
+                System.out.print(quadricula[i][j]);
+            System.out.println();
         }
         return quadricula;
     }
