@@ -1,12 +1,13 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.awt.Color;
 
 public class Sudoku2 {
     
     public static void main(String[] args) {
+        Random ran = new Random();
         Scanner scan = new Scanner(System.in);
-        int[][] quad = lerQuadricula(scan);
-        imprimirQD(quad);
+        imprimirMenu(ran, scan);
     }
     
     /**
@@ -70,23 +71,23 @@ public class Sudoku2 {
     public static int[][] lerQuadricula(Scanner scan) {
         int[][] quadricula = new int [9][9];
         for (int i = 0; i < 9; i++) { // para cada linha da matriz
-            int cont = 0;
+            int contDigitos = 0; // total de dígitos
             do {
                 int linha = scan.nextInt(); // linha inserida pelo usuário
-                int j = 8; // contador dos dígitos de num e indice para as colunas respetivamente
+                int j = 8; // indice para as colunas
                 while (linha > 0) {
-                    cont++;
+                    contDigitos++;
                     quadricula[i][j] = linha % 10;
                     linha /= 10;
                     j--;
                 }
-                if (cont < 9) {
+                if (contDigitos < 9) {
                     System.out.println
                     ("A linha deve ter pelos menos 9 dígitos" 
                     + "\nSe tiver mais o exesso será excluído.\nTente novamente!");
-                    cont = 0;
+                    contDigitos = 0;
                 }
-            } while (cont < 9);
+            } while (contDigitos < 9);
         }
         System.out.println();
         for (int i = 0; i < quadricula.length; i++) {
@@ -203,9 +204,8 @@ public class Sudoku2 {
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
         int linha1 = faixa1 * 3, linha2 = faixa2 * 3;
-       
         for (int i = 0; i < matriz.length/3; i++) {
-            permutarLin2has(matriz, linha1, linha2);
+            permutarLinhas(matriz, linha1, linha2);
             linha1++;
             linha2++;
         }
@@ -282,44 +282,85 @@ public class Sudoku2 {
     {
         String[] opcoes =
         { // menu
-            "0 - Sair", "1 - Aplicar permutacao de dois numeros",
+            "0 - Sair",
+            "1 - Aplicar permutacao de dois numeros",
             "2 - Aplicar permutacao de duas linhas de uma mesma faixa horizontal",
             "3 - Aplicar permutação de duas colunas de uma mesma faixa vertical",
-            "4 - Aplicar permutacao de duas faixas horizontais", "5 - Aplicar permutacao de duas faixas verticais",
-            "6 - Aplicar reflexao horizontal", "7 - Aplicar reflexao vertical", "8 - Indicar quadricula" };
-
-        System.out.println("Quadrícula corente: ");
+            "4 - Aplicar permutacao de duas faixas horizontais", 
+            "5 - Aplicar permutacao de duas faixas verticais",
+            "6 - Aplicar reflexao horizontal",
+            "7 - Aplicar reflexao vertical",
+            "8 - Indicar quadricula" };
+            
         int[][] sudoku = gq();
-        imprimirQD(sudoku);
-        // Imprime as opções
-        for (int i = 0; i < opcoes.length; i++)
-            System.out.println(opcoes[i]);
-        
         int opcao = 1;
         do {
-            opcao = scan.nextInt();
+            System.out.println(" ");
+            System.out.println("Quadrícula corente: ");
+            imprimirQD(sudoku);
+            if (validadeDaQuadricula(sudoku))
+                System.out.println("Válida!");
+            else
+                System.out.println("Inválida");
+            System.out.println(" ");
+            // Imprime as opções
+            for (int i = 0; i < opcoes.length; i++)
+                System.out.println(opcoes[i]);
+            opcao = scan.nextInt(); // escolha da opção
             switch (opcao) {
-                case 1:
-                    int n1 = ran.nextInt(9), n2 = ran.nextInt(9);
+                case 1: // Permutação de números
+                    int n1 = ran.nextInt(9) + 1, n2 = n1;
+                    while (n2 == n1)
+                        n2 = ran.nextInt(9) + 1;
                     permutarNumeros(sudoku, n1, n2);
-                    imprimirQD(sudoku);;
+                    System.out.printf("Foram permutados os valores %d e %d%n", n1, n2);
                     break;
-                case 2:
-                    System.out.print("Insira a primeira linha: ");
-                    int linha1 = scan.nextInt();
+                case 2: // Permutação de linhas
+                    System.out.print("Insira a primeira linha (1 a 9): ");
+                    int linha1 = scan.nextInt() - 1;
                     System.out.print("Insira a segunda linha: ");
-                    int linha2 = scan.nextInt();
+                    int linha2 = scan.nextInt() - 1;
                     permutarLinhas(sudoku, linha1, linha2);
-                    imprimirQD(sudoku);;
                     break;
-                case 3:
-                    permutarColunas(sudoku, scan.nextInt(), scan.nextInt());
-                    imprimirQD(sudoku);;
+                case 3: // Permutação de colunas
+                    System.out.print("Insira a primeira coluna: ");
+                    int coluna1 = scan.nextInt() - 1;
+                    System.out.print("Insira a segunda coluna: ");
+                    int coluna2 = scan.nextInt() - 1;
+                    permutarColunas(sudoku, coluna1, coluna2);
+                    break;
+                case 4: // Permutação de faixas horizontais
+                    System.out.print("Insira a primeira faixa: ");
+                    int faixaH1 = scan.nextInt();
+                    System.out.print("Insira a segunda faixa: ");
+                    int faixaH2 = scan.nextInt();
+                    permutarFaixasHorizontais(sudoku, faixaH1 - 1, faixaH2 - 1);
+                    break;
+                case 5: // Permutação de faixas horizontais
+                    System.out.print("Insira a primeira faixa: ");
+                    int faixaV1 = scan.nextInt();
+                    System.out.print("Insira a segunda faixa: ");
+                    int faixaV2 = scan.nextInt();
+                    permutarFaixasHorizontais(sudoku, faixaV1 - 1, faixaV2 - 1);
+                    break;
+                case 6: // Reflexão horizontal
+                    reflexaoHorizontal(sudoku);
+                    System.out.println("Foi aplicada a reflexão horizontal");
+                    break;
+                case 7: // Reflexão vertical
+                    reflexaoVertical(sudoku);
+                    System.out.println("Foi aplicada a reflexão vertical");
+                    break;
+                case 8: // inserção de quadrícula
+                    int[][] quadricula = lerQuadricula(scan);
+                    if (validadeDaQuadricula(quadricula))
+                        sudoku = quadricula;
+                    else
+                        System.out.println("Quadrícula inválida");
                     break;
             }
-        } while (opcao != '0');
-        
+        } while (opcao != 0);
+        System.out.println(" ");
+        System.out.println("Até a próxima! :)");
     }
 }
-
-
