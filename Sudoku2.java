@@ -7,7 +7,7 @@ public class Sudoku2 {
     public static void main(String[] args) {
         Random ran = new Random();
         Scanner scan = new Scanner(System.in);
-        imprimirMenu(ran, scan);
+        jogar(ran, scan);
     }
     
     /**
@@ -88,12 +88,6 @@ public class Sudoku2 {
                     contDigitos = 0;
                 }
             } while (contDigitos < 9);
-        }
-        System.out.println();
-        for (int i = 0; i < quadricula.length; i++) {
-            for (int j = 0; j < quadricula.length; j++)
-                System.out.print(quadricula[i][j]);
-            System.out.println();
         }
         return quadricula;
     }
@@ -278,7 +272,34 @@ public class Sudoku2 {
         }
     }
 
-    public static void imprimirMenu(Random ran, Scanner scan)
+    // Trabalha com números de 1 a 9
+    public static int validarPermutacao(Scanner scan, String msgErro, int e1) {
+        int e2 = 0;
+        if(e1 >= 0 && e1 <= 2)
+            do {
+                e2 = scan.nextInt();
+                if (e2 < 1 || e2 > 3)
+                    System.out.println(msgErro);
+            } while (e2 < 1 || e2 > 4);
+            
+        else if (e1 >= 3 && e1 <= 5) {
+            do {
+                e2 = scan.nextInt();
+                if (e2 < 4 || e2 > 6)
+                System.out.println(msgErro);
+            } while (e2 < 4 || e2 > 6);
+            
+        }
+        else if (e1 >= 6 && e1 <= 8)
+            do {
+                e2 = scan.nextInt();
+                if (e2 < 7 || e2 > 9)
+                    System.out.println(msgErro);
+            } while (e2 < 7 || e2 > 9);
+        return e2;
+    }
+
+    public static void jogar(Random ran, Scanner scan)
     {
         String[] opcoes =
         { // menu
@@ -317,31 +338,31 @@ public class Sudoku2 {
                     break;
                 case 2: // Permutação de linhas
                     System.out.print("Insira a primeira linha (1 a 9): ");
-                    int linha1 = scan.nextInt() - 1;
+                    int linha1 = lerNumeroNoIntervalo(scan, 1, 9, "Erro: Valor inválido") - 1;
                     System.out.print("Insira a segunda linha: ");
-                    int linha2 = scan.nextInt() - 1;
+                    int linha2 = validarPermutacao(scan, "Erro: As linhas têm de estar na mesma faixa", linha1) - 1;
                     permutarLinhas(sudoku, linha1, linha2);
                     break;
                 case 3: // Permutação de colunas
                     System.out.print("Insira a primeira coluna: ");
-                    int coluna1 = scan.nextInt() - 1;
+                    int coluna1 = lerNumeroNoIntervalo(scan, 0, 8, "Erro: Valor inválido");
                     System.out.print("Insira a segunda coluna: ");
-                    int coluna2 = scan.nextInt() - 1;
+                    int coluna2 = validarPermutacao(scan, "Erro: As colunas têm de estar na mesma faixa", coluna1) - 1;
                     permutarColunas(sudoku, coluna1, coluna2);
                     break;
                 case 4: // Permutação de faixas horizontais
                     System.out.print("Insira a primeira faixa: ");
-                    int faixaH1 = scan.nextInt();
+                    int faixaH1 = lerNumeroNoIntervalo(scan, 1, 3, "Valor inválido\nInsira um valor entre 1 e 3") - 1;
                     System.out.print("Insira a segunda faixa: ");
-                    int faixaH2 = scan.nextInt();
-                    permutarFaixasHorizontais(sudoku, faixaH1 - 1, faixaH2 - 1);
+                    int faixaH2 = lerNumeroNoIntervalo(scan, 1, 3, "Valor inválido\nInsira um valor entre 1 e 3") - 1;
+                    permutarFaixasHorizontais(sudoku, faixaH1, faixaH2);
                     break;
-                case 5: // Permutação de faixas horizontais
+                case 5: // Permutação de faixas Verticais
                     System.out.print("Insira a primeira faixa: ");
-                    int faixaV1 = scan.nextInt();
+                    int faixaV1 = lerNumeroNoIntervalo(scan, 1, 3, "Valor inválido\nInsira um valor entre 1 e 3") - 1;
                     System.out.print("Insira a segunda faixa: ");
-                    int faixaV2 = scan.nextInt();
-                    permutarFaixasHorizontais(sudoku, faixaV1 - 1, faixaV2 - 1);
+                    int faixaV2 = lerNumeroNoIntervalo(scan, 1, 3, "Valor inválido\nInsira um valor entre 1 e 3") - 1;
+                    permutarFaixasHorizontais(sudoku, faixaV1, faixaV2);
                     break;
                 case 6: // Reflexão horizontal
                     reflexaoHorizontal(sudoku);
