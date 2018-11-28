@@ -1,6 +1,9 @@
-# IDEs files
+.idea/
 .vscode
-
+Sudoku2.iml
+.gitignore
+Testes.java
+/out
 # Compiled class file
 *.class
 
