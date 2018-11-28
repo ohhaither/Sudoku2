@@ -350,16 +350,12 @@ public class Sudoku2 {
             System.out.println(" ");
             System.out.println("Quadrícula corente: ");
             imprimirQD(sudoku);
-            // Para debuging: apagar antes da release
-            if (validadeDaQuadricula(sudoku))
-                System.out.println("Válida!");
-            else
-                System.out.println("Inválida");
             System.out.println(" ");
             // Imprime as opções
             for (int i = 0; i < opcoes.length; i++)
                 System.out.println(opcoes[i]);
-            opcao = scan.nextInt(); // escolha da opção
+            opcao = lerNumeroNoIntervalo
+            (scan, 0, 9, "Opção inválida: insira um valor entre 1 e 9"); // escolha da opção
             switch (opcao) {
                 case 1: // Permutação de números
                     int n1 = ran.nextInt(9) + 1, n2 = n1;
@@ -417,8 +413,10 @@ public class Sudoku2 {
                     forma a eitar bugs na eventualidade da inserção de valores excessivos */
                     Scanner scanQuad = new Scanner(System.in);
                     int[][] quadricula = lerQuadricula(scanQuad);
-                    if (validadeDaQuadricula(quadricula))
+                    if (validadeDaQuadricula(quadricula)) {
                         sudoku = quadricula;
+                        System.out.println("Quadrícula válida");
+                    }
                     else
                         System.out.println("Quadrícula inválida");
                     break;
