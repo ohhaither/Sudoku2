@@ -406,7 +406,7 @@ public class Sudoku2 {
                     break;
                 case 8: // inserção de quadrícula
                     /* Convém que a leitura da quadrícula tenha o seu próprio Scanner de
-                    forma a eitar bugs na eventualidade da inserção de valores excessivos */
+                    forma a evitar bugs na eventualidade da inserção de valores excessivos */
                     Scanner scanQuad = new Scanner(System.in);
                     System.out.println("Insira os valores da quadrícula: ");
                     int[][] quadricula = lerQuadricula(scanQuad);
