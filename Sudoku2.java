@@ -170,7 +170,7 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param linha1 primeira linha a permutar
      * @param linha2 segunda linha a permutar
-     * @requires {@code (matriz != null) && (linha1 >= 0 && linha1 <= 8) && (linha2 => 0 && linha2 <= 8)}
+     * @requires {@code (matriz != null) && (linha1 >= 0 && linha1 <= 8) && (linha2 >= 0 && linha2 <= 8)}
      */
     public static void permutarLinhas(int[][] matriz, int linha1, int linha2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
