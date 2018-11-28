@@ -80,38 +80,49 @@ public class Sudoku2 {
     }
 
     /**
-     * Verifica se um vetor contém todos os números de um a nove
+     * Verifica se um vetor tem tamanho 9 e contém todos os números de um a nove
      * @param vetor vetor a ser analizado
      * @return true se o vetor for válido, false se não for
      */
     public static boolean validadeDoVetor(int[] vetor) {
-        int produto = 1, tamanho = 0;
-        for (int i = 0; i < vetor.length; i++) {
-            produto *= vetor[i];
-            tamanho++;
+        int[] valores = {1, 2, 3, 4, 5, 6, 7, 8, 9}; // valores a comparar
+        boolean validade = true; // validadde do vetor
+        if (vetor.length == 9) {
+            for (int i = 0; i < valores.length; i++) { // por cada elemento em valores
+                boolean estaPresente = false;
+                for (int j = 0; j < vetor.length; j++) { // por cada elemento em vetor
+                    if (valores[i] == vetor[j])
+                        estaPresente = true;
+                }
+                if (!estaPresente) {
+                    validade = false;
+                    break;
+                }
+            }
         }
-        return ((produto == 1*2*3*4*5*6*7*8*9) && (tamanho == 9))? true : false;
+        else // Se vetor.length for != 9 a invalidade é imediatamente comprovada
+            validade = false;
+        return validade;
     }
     
     /**
-     * Verifica se todas as linhas, colunas e blocos de uma matriz contêm os núemeros de 1 a 9
+     * Verifica se todas as linhas, colunas e blocos de uma matriz contêm
+     *  os núemeros de 1 a 9
      * @param matriz matriz a ser analizada
      * @return true se a matriz for válidade, false se não
      */
     public static boolean validadeDaQuadricula(int[][] matriz) {
         boolean validade = true;
-        int[] vetor = new int[matriz.length]; // recebe a linha/coluna/bloco a ser verfificado
+        int[] vetor = new int[matriz[0].length]; // recebe a linha/coluna/bloco a ser verfificado
         for (int i = 0; i < matriz.length; i++) {
             // linhas
-            for (int j = 0; j < matriz.length; j++)
-                vetor[j] = matriz[i][j]; // o vetor recebe uma linha da matriz por vez para verificação
-            if (!validadeDoVetor(vetor)) {// verificação da validade do vetor
+            vetor = matriz[i]; // o vetor recebe uma linha da matriz por vez
+            if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
                 validade = false;
                 break;
             }
             // colunas
-            for (int j = 0; j < matriz.length; j++)
-                vetor[j] = matriz[j][i]; // o vetor recebe uma coluna da matriz por vez para verificação
+            vetor = matriz[i]; // o vetor recebe uma coluna da matriz por vez
             if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
                 validade = false;
                 break;
@@ -122,7 +133,7 @@ public class Sudoku2 {
         for (int q = 0; q < vetor.length / 3; q++) { // para cada linha de blocos
             int colunaDeBlocos = 0;
             // faixa de blocos
-            for (int p = 0; p < vetor.length / 3; p++) { // para cada coluna de blocos 
+            for (int p = 0; p < vetor[0].length / 3; p++) { // para cada coluna de blocos 
                 int o = 0; // repetições para o vetor
                 // bloco
                 int cont = 0;
@@ -292,8 +303,8 @@ public class Sudoku2 {
             "1 - Aplicar permutação de dois numeros aleatórios",
             "2 - Aplicar permutação de duas linhas de uma mesma faixa horizontal",
             "3 - Aplicar permutação de duas colunas de uma mesma faixa vertical",
-            "4 - Aplicar permutacão de duas faixas horizontais", 
-            "5 - Aplicar permutacão de duas faixas verticais",
+            "4 - Aplicar permutação de duas faixas horizontais", 
+            "5 - Aplicar permutação de duas faixas verticais",
             "6 - Aplicar reflexão horizontal",
             "7 - Aplicar reflexão vertical",
             "8 - Indicar quadricula" };
@@ -304,6 +315,7 @@ public class Sudoku2 {
             System.out.println(" ");
             System.out.println("Quadrícula corente: ");
             imprimirQD(sudoku);
+            // Para debuging: apagar antes da release
             if (validadeDaQuadricula(sudoku))
                 System.out.println("Válida!");
             else
