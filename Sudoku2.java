@@ -170,8 +170,7 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param linha1 primeira linha a permutar
      * @param linha2 segunda linha a permutar
-     * @requires {@code matriz != null}
-     * @requires {@code (linha1 => 0 && linha1 <= 8) && (linha2 => 0 && linha2 <= 8)}
+     * @requires {@code (matriz != null) && (linha1 >= 0 && linha1 <= 8) && (linha2 => 0 && linha2 <= 8)}
      */
     public static void permutarLinhas(int[][] matriz, int linha1, int linha2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
@@ -188,8 +187,7 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param linha1 primeira coluna a permutar
      * @param linha2 segunda coluna a permutar
-     * @requires {@code matriz != null}
-     * @requires {@code (coluna1 => 0 && coluna1 <= 8) && (coluna2 => 0 && coluna2 <= 8)}
+     * @requires {@code (matriz != null) && (coluna1 >= 0 && coluna1 <= 8) && (coluna2 >= 0 && coluna2 <= 8)}
      */
     public static void permutarColunas(int[][] matriz, int coluna1, int coluna2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
@@ -205,8 +203,7 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param faixa1 primeira faixa a ser permutar
      * @param faixa2 segunda faixa a ser permutar
-     * @requires {@code matriz != null}
-     * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
+     * @requires {@code (matriz != null) && (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
         int linha1 = faixa1 * 3, linha2 = faixa2 * 3; // linhas de iníco
@@ -223,8 +220,7 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param faixa1 primeira faixa a permutar
      * @param faixa2 segunda faixa a permutar
-     * @requires {@code matriz != null}
-     * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
+     * @requires {@code (matriz != null) && (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
     public static void permutarFaixasVerticais(int[][] matriz, int faixa1, int faixa2) {
         int coluna1 = faixa1 * 3, coluna2 = faixa2 * 3; // colunas de início
