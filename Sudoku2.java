@@ -2,7 +2,6 @@
 import java.util.Scanner;
 import java.util.Random;
 /**
- * 
  * @author Tomás Marques,fc52794
  * @author Fábio Furtado,fc53456
  */
@@ -141,9 +140,8 @@ public class Sudoku2 {
         int linhaDeBlocos = 0;
         for (int q = 0; q < vetor.length / 3; q++) { // para cada linha de blocos
             int colunaDeBlocos = 0;
-            // faixa de blocos
             for (int p = 0; p < vetor.length / 3; p++) { // para cada coluna de blocos 
-                int o = 0; // repetições para o vetor
+                int o = 0; // índice para o vetor
                 // bloco
                 int cont = 0;
                 for (int i = linhaDeBlocos * 3; cont < 3; i++) { // para cada linha do bloco
@@ -163,7 +161,6 @@ public class Sudoku2 {
         }
         return validade;
     }
-
 
      /**
      * Faz a permutação dos valores de duas linhas escolhidas numa matriz
@@ -240,7 +237,6 @@ public class Sudoku2 {
     /* n1 e n2 serão gerados aleatoriamente no métoto main para que possam 
        ser reutilizados para dizer ao usuáio quais números foram alterados 
        por exemplo */
-    
     /**
      * Dados n1 e n2, procura todas as ocorencias de n1 numa matriz e substirui 
      * por n2 e vice-versa
@@ -327,6 +323,7 @@ public class Sudoku2 {
             } while (e2 < 7 || e2 > 9);
         return e2;
     }
+
     /** 
      * Imprime e executa as opções de acordo com a opção do utilizador
      * @param ran randomizador
@@ -350,16 +347,12 @@ public class Sudoku2 {
             System.out.println(" ");
             System.out.println("Quadrícula corente: ");
             imprimirQD(sudoku);
-            // Para debuging: apagar antes da release
-            if (validadeDaQuadricula(sudoku))
-                System.out.println("Válida!");
-            else
-                System.out.println("Inválida");
             System.out.println(" ");
             // Imprime as opções
             for (int i = 0; i < opcoes.length; i++)
                 System.out.println(opcoes[i]);
-            opcao = scan.nextInt(); // escolha da opção
+            opcao = lerNumeroNoIntervalo
+            (scan, 0, 9, "Opção inválida: insira um valor entre 1 e 9"); // escolha da opção
             switch (opcao) {
                 case 1: // Permutação de números
                     int n1 = ran.nextInt(9) + 1, n2 = n1;
@@ -417,8 +410,10 @@ public class Sudoku2 {
                     forma a eitar bugs na eventualidade da inserção de valores excessivos */
                     Scanner scanQuad = new Scanner(System.in);
                     int[][] quadricula = lerQuadricula(scanQuad);
-                    if (validadeDaQuadricula(quadricula))
+                    if (validadeDaQuadricula(quadricula)) {
                         sudoku = quadricula;
+                        System.out.println("Quadrícula válida");
+                    }
                     else
                         System.out.println("Quadrícula inválida");
                     break;
