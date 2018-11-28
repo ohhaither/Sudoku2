@@ -1,8 +1,16 @@
+
 import java.util.Scanner;
 import java.util.Random;
-
+/**
+ * 
+ * @author Tomás Marques,fc52794
+ * @author Fábio Furtado,fc53456
+ */
 public class Sudoku2 {
     
+    /** 
+     * Função main que invoca o programa
+     */
     public static void main(String[] args) {
         Random ran = new Random();
         Scanner scan = new Scanner(System.in);
@@ -24,7 +32,8 @@ public class Sudoku2 {
 
     /**
      * imprime matrizes no terminal
-     * @param matriz matriz a ser impriida
+     * @param matriz matriz a ser imprimida
+     * @requires {@code matriz !=null}
     */
     public static void imprimirQD(int[][] matriz) {
         int l = 0; // índice da linha
@@ -66,7 +75,7 @@ public class Sudoku2 {
      * @param scan instancia da classe Scanner usada na leitura
      * @param inicio início do intervalo
      * @param fim do intervalo
-     * @param msgErro mensagem apresentada caso o número inserido não encontre-se no intervalo
+     * @param msgErro mensagem apresentada caso o número inserido não se encontre no intervalo
      * @return número depois depois de ser aceite
      */
     public static int lerNumeroNoIntervalo(Scanner scan, int inicio, int fim, String msgErro) {
@@ -107,12 +116,13 @@ public class Sudoku2 {
     
     /**
      * Verifica se todas as linhas, colunas e blocos de uma matriz contêm
-     *  os núemeros de 1 a 9
+     * os núemeros de 1 a 9
      * @param matriz matriz a ser analizada
-     * @return true se a matriz for válidade, false se não
+     * @requires {@code matriz != null}  
+     * @return true se a matriz for válida, false se não
      */
     public static boolean validadeDaQuadricula(int[][] matriz) {
-        boolean validade = true;
+	boolean validade = true;
         int[] vetor = new int[matriz[0].length]; // recebe a linha/coluna/bloco a ser verfificado
         for (int i = 0; i < matriz.length; i++) {
             // linhas
@@ -157,12 +167,16 @@ public class Sudoku2 {
         return validade;
     }
 
+
      /**
      * Faz a permutação dos valores de duas linhas escolhidas numa matriz
      * Obs: Ter em conta que o índice das linhas começa em 0
      * @param matriz matriz a ser modificada
      * @param linha1 primeira linha a permutar
      * @param linha2 segunda linha a permutar
+     * @requires {@code matriz != null}
+     * @requires {@code (linha1 => 0 && linha1 <= 8) && (linha2 => 0 && linha2 <= 8)}
+     * @ensures {@code (matriz[linha1][i] = matriz[linha2][i]) && (matriz[linha2][i] = matriz[linha1][i])}
      */
     public static void permutarLinhas(int[][] matriz, int linha1, int linha2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
@@ -179,6 +193,9 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param linha1 primeira coluna a permutar
      * @param linha2 segunda coluna a permutar
+     * @requires {@code matriz != null}
+     * @requires {@code (coluna1 => 0 && coluna1 <= 8) && (coluna2 => 0 && coluna2 <= 8)}
+     * @ensures {@code (matriz[i][coluna1] = matriz[i][coluna2]) && (matriz[i][coluna2] = matriz[i][coluna1])}
      */
     public static void permutarColunas(int[][] matriz, int coluna1, int coluna2) {
         int auxiliar; // recebe o valor de matriz[coluna1][i] antes que este seja substituído
@@ -194,7 +211,9 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @para m faixa1 primeira faixa a ser permutar
      * @param faixa2 segunda faixa a ser permutar
+     * @requires {@code matriz != null}
      * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
+     * @ensures {@code (faixa1 = faixa2) && (faixa2 = faixa1)}
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
         int linha1 = faixa1 * 3, linha2 = faixa2 * 3; // linhas de iníco
@@ -211,7 +230,9 @@ public class Sudoku2 {
      * @param matriz matriz a ser modificada
      * @param faixa1 primeira faixa a permutar
      * @param faixa2 segunda faixa a permutar
-     * @requires {@code (faixa1 >= 1 && faixa1 <= 3) && (faixa2 >= 1 && faixa2 <=)}
+     * @requires {@code matriz != null}
+     * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
+     * @ensures {@code (faixa1 = faixa2) && (faixa2 = faixa1)}
      */
     public static void permutarFaixasVerticais(int[][] matriz, int faixa1, int faixa2) {
         int coluna1 = faixa1 * 3, coluna2 = faixa2 * 3; // colunas de início
@@ -226,12 +247,15 @@ public class Sudoku2 {
     /* n1 e n2 serão gerados aleatoriamente no métoto main para que possam 
        ser reutilizados para dizer ao usuáio quais números foram alterados 
        por exemplo */
+    
     /**
      * Dados n1 e n2, procura todas as ocorencias de n1 numa matriz e substirui 
      * por n2 e vice-versa
      * @param matriz matriz a ser modificada
      * @param n1 primeiro número a permutar
      * @param n2 segundo número a permutar
+     * @requires {@code matriz != null}
+     * @ensures {@code (n1 = n2) && (n2 = n1)}
      */
     public static void permutarNumeros(int[][] matriz, int n1, int n2) {
         for (int i = 0; i < matriz.length; i++) {
@@ -248,6 +272,8 @@ public class Sudoku2 {
      * O conteúdo da linha {@code i} passa a ser o da linha {@code matriz.length - 1 - i} 
      * e vice-versa.
      * @param matriz matriz a ser modificada
+     * @requires {@code matriz != null}
+     * @ensures {@code (matriz[i][j] = matriz[matriz.length - 1 - i][j]) && (matriz[matriz.length - 1 - i][j] = matriz[i][j])}
      */
     public static void reflexaoHorizontal(int[][] matriz) {
         for (int i = 0; i < matriz.length / 2; i++) { // linhas
@@ -263,6 +289,8 @@ public class Sudoku2 {
      * O conteúdo da coluna {@code j} passa a ser o da linha {@code matriz.length - 1 - j} 
      * e vice-versa.
      * @param matriz matriz a ser modificada
+     * @requires {@code matriz != null}
+     * @ensures {@code (matriz[i][j] = matriz[i][matriz.length - 1 - j]) && (matriz[i][matriz.length - 1 - j] = matriz[i][j]) }
      */
     public static void reflexaoVertical(int[][] matriz) {
         for (int j = 0; j < matriz.length / 2; j++) {
@@ -275,6 +303,16 @@ public class Sudoku2 {
     }
 
     // Trabalha com números de 1 a 9
+    
+    /** 
+     * Função que restringe o utilizador a pôr os valores das colunas ou linhas na mesma faixa. Obrigando-o a repetir até que esta condição seja cumprida
+     * @param scan valor introduzido pelo utilizador
+     * @param msgErro mensagem de erro no caso dos numeros introduzidos não se encontrarem na mesma faixa
+     * @param e1 número que restringe o valor introduzido pelo scanner
+     * @requires {@code e1 >=0 && e1 <= 8} 
+     * @ensures {@code e2 >= 1 && e2 <= 3 || e2 >= 4 && e2 <= 6 || e2 >= 7 && e2 <= 9}
+     * @return e2 o valor dependente da variável e1 de acordo com a faixa em que se encontra     
+     */
     public static int validarPermutacao(Scanner scan, String msgErro, int e1) {
         int e2 = 0;
         if (e1 >= 0 && e1 <= 2)
@@ -298,9 +336,13 @@ public class Sudoku2 {
             } while (e2 < 7 || e2 > 9);
         return e2;
     }
-
+    /** 
+     * Função de Impressão do menu e execução dos comandos introuzidos por este de acordo com a opção do utilizador
+     * @param ran random usado na permutação de números
+     * @param scan número introduzido pelo utilizador de forma a inicializar e executar as funções
+     */
     public static void start(Random ran, Scanner scan) {
-        String[] opcoes = { // menu
+        String[] opcoes = { 
             "0 - Sair",
             "1 - Aplicar permutação de dois numeros aleatórios",
             "2 - Aplicar permutação de duas linhas de uma mesma faixa horizontal",
@@ -309,7 +351,7 @@ public class Sudoku2 {
             "5 - Aplicar permutação de duas faixas verticais",
             "6 - Aplicar reflexão horizontal",
             "7 - Aplicar reflexão vertical",
-            "8 - Indicar quadricula" };
+            "8 - Indicar quadricula" }; // menu
             
         int[][] sudoku = gq();
         int opcao = 1;
@@ -392,6 +434,6 @@ public class Sudoku2 {
             }
         } while (opcao != 0);
         System.out.println(" ");
-        System.out.println("Até a próxima! :)");
+        System.out.println("Até à próxima! :)");
     }
 }
