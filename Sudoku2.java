@@ -116,13 +116,15 @@ public class Sudoku2 {
         int[] vetor = new int[matriz[0].length]; // recebe a linha/coluna/bloco a ser verfificado
         for (int i = 0; i < matriz.length; i++) {
             // linhas
-            vetor = matriz[i]; // o vetor recebe uma linha da matriz por vez
+            for (int j = 0; j < matriz.length; j++)
+                vetor[j] = matriz[i][j]; // o vetor recebe uma linha da matriz por vez para verificação
             if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
                 validade = false;
                 break;
             }
             // colunas
-            vetor = matriz[i]; // o vetor recebe uma coluna da matriz por vez
+            for (int j = 0; j < matriz.length; j++)
+                vetor[j] = matriz[j][i]; // o vetor recebe uma coluna da matriz por vez para verificação
             if (!validadeDoVetor(vetor)) { // verificação da validade do vetor
                 validade = false;
                 break;
@@ -133,7 +135,7 @@ public class Sudoku2 {
         for (int q = 0; q < vetor.length / 3; q++) { // para cada linha de blocos
             int colunaDeBlocos = 0;
             // faixa de blocos
-            for (int p = 0; p < vetor[0].length / 3; p++) { // para cada coluna de blocos 
+            for (int p = 0; p < vetor.length / 3; p++) { // para cada coluna de blocos 
                 int o = 0; // repetições para o vetor
                 // bloco
                 int cont = 0;
