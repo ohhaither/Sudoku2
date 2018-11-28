@@ -1,13 +1,12 @@
 import java.util.Scanner;
 import java.util.Random;
-import java.awt.Color;
 
 public class Sudoku2 {
     
     public static void main(String[] args) {
         Random ran = new Random();
         Scanner scan = new Scanner(System.in);
-        jogar(ran, scan);
+        start(ran, scan);
     }
     
     /**
@@ -30,24 +29,41 @@ public class Sudoku2 {
     public static void imprimirQD(int[][] matriz) {
         int l = 0; // índice da linha
         for (int g = 0; g < matriz.length / 3; g++) { // por cada faixa
-            System.out.println("-----------------------");
+            System.out.println("-------------------------");
             for (int i = 0; i < matriz.length / 3; i++) { // por cada linha
                 for (int j = 0; j < matriz.length; j++) { // por cada coluna
-                    System.out.print(matriz[l][j] + " "); // impressão da célula
-                    if (j == 2 || j == 5 || j == 8)
+                    if (j == 0|| j == 3 || j == 6)
                         System.out.print("| ");
+                    System.out.print(matriz[l][j] + " "); // impressão linha da célula
                 }
+                System.out.print("|");
                 System.out.println();
                 l++; // linha
             }
-            System.out.println("-----------------------");
         }
+        System.out.println("-------------------------");
     }
-        
+    
+    /**
+     * Lê uma quadrícula inserida no terminal. Os seus valores devem ser inseridos
+     * separados por espaços ou por mudânça de linha.
+     * @param scan instancia da classe Scanner usada na leitura
+     * @return quadrícula inserida numa matriz
+     */
+    public static int[][] lerQuadricula(Scanner scan) {
+        int[][] quadricula = new int[9][9];
+        for (int i = 0; i < quadricula.length; i++) {
+            for (int j = 0; j < quadricula[0].length; j++) {
+                quadricula[i][j] = scan.nextInt();
+            }
+        }
+        return quadricula;
+    }
+
     /**
      * Faz a leitura de um número inteiro no terminal  e certifica que este encontre-se no intervalo 
      * indicado, apresentando uma mensagem de erro caso não se encontre
-     * @param scan instancia da classe Scanner para que se faça a leitura
+     * @param scan instancia da classe Scanner usada na leitura
      * @param inicio início do intervalo
      * @param fim do intervalo
      * @param msgErro mensagem apresentada caso o número inserido não encontre-se no intervalo
@@ -61,35 +77,6 @@ public class Sudoku2 {
                 System.out.println(msgErro);
         } while (num < inicio || num > fim);
         return num;
-    }
-
-   // Se adicionar espaços entre os intervalos haverá erro
-    /**
-     * Lê uma quadrícula inserida linha por linha no terminal
-     * @param scan instancia da classe Scanner usada para ler no teminal
-     */
-    public static int[][] lerQuadricula(Scanner scan) {
-        int[][] quadricula = new int [9][9];
-        for (int i = 0; i < 9; i++) { // para cada linha da matriz
-            int contDigitos = 0; // total de dígitos
-            do {
-                int linha = scan.nextInt(); // linha inserida pelo usuário
-                int j = 8; // indice para as colunas
-                while (linha > 0) {
-                    contDigitos++;
-                    quadricula[i][j] = linha % 10;
-                    linha /= 10;
-                    j--;
-                }
-                if (contDigitos < 9) {
-                    System.out.println
-                    ("A linha deve ter pelos menos 9 dígitos" 
-                    + "\nSe tiver mais o exesso será excluído.\nTente novamente!");
-                    contDigitos = 0;
-                }
-            } while (contDigitos < 9);
-        }
-        return quadricula;
     }
 
     /**
@@ -197,7 +184,8 @@ public class Sudoku2 {
      * @requires {@code (faixa1 >= 0 && faixa1 <= 2) && (faixa2 >= 0 && faixa2 <= 2)}
      */
     public static void permutarFaixasHorizontais(int[][] matriz, int faixa1, int faixa2) {
-        int linha1 = faixa1 * 3, linha2 = faixa2 * 3;
+        int linha1 = faixa1 * 3, linha2 = faixa2 * 3; // linhas de iníco
+        // Faz a permutação linha por linha
         for (int i = 0; i < matriz.length/3; i++) {
             permutarLinhas(matriz, linha1, linha2);
             linha1++;
@@ -213,7 +201,8 @@ public class Sudoku2 {
      * @requires {@code (faixa1 >= 1 && faixa1 <= 3) && (faixa2 >= 1 && faixa2 <=)}
      */
     public static void permutarFaixasVerticais(int[][] matriz, int faixa1, int faixa2) {
-        int coluna1 = faixa1 * 3, coluna2 = faixa2 * 3;
+        int coluna1 = faixa1 * 3, coluna2 = faixa2 * 3; // colunas de início
+        // Faz a permutação coluna por coluna
         for (int i = 0; i < matriz.length/3; i++) {
             permutarColunas(matriz, coluna1, coluna2);
             coluna1++;
@@ -275,7 +264,7 @@ public class Sudoku2 {
     // Trabalha com números de 1 a 9
     public static int validarPermutacao(Scanner scan, String msgErro, int e1) {
         int e2 = 0;
-        if(e1 >= 0 && e1 <= 2)
+        if (e1 >= 0 && e1 <= 2)
             do {
                 e2 = scan.nextInt();
                 if (e2 < 1 || e2 > 3)
@@ -297,10 +286,8 @@ public class Sudoku2 {
         return e2;
     }
 
-    public static void jogar(Random ran, Scanner scan)
-    {
-        String[] opcoes =
-        { // menu
+    public static void start(Random ran, Scanner scan) {
+        String[] opcoes = { // menu
             "0 - Sair",
             "1 - Aplicar permutação de dois numeros aleatórios",
             "2 - Aplicar permutação de duas linhas de uma mesma faixa horizontal",
@@ -379,7 +366,10 @@ public class Sudoku2 {
                     System.out.println("Foi aplicada a reflexão vertical");
                     break;
                 case 8: // inserção de quadrícula
-                    int[][] quadricula = lerQuadricula(scan);
+                    /* Convém que a leitura da quadrícula tenha o seu próprio Scanner de
+                    forma a eitar bugs na eventualidade da inserção de valores excessivos */
+                    Scanner scanQuad = new Scanner(System.in);
+                    int[][] quadricula = lerQuadricula(scanQuad);
                     if (validadeDaQuadricula(quadricula))
                         sudoku = quadricula;
                     else
